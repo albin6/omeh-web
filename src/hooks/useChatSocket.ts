@@ -1,7 +1,13 @@
-import { useState, useEffect, useCallback } from 'react';
-import type { Message, MessagePayload, MatchFoundPayload, WaitingPayload } from '../types/chat.types';
-import { SocketEvents } from '../types/chat.types';
-import useSocket from './useSocket';
+import { useState, useEffect, useCallback } from "react";
+import type {
+  Message,
+  MessagePayload,
+  MatchFoundPayload,
+  WaitingPayload,
+  TypingPayload,
+} from "../types/chat.types";
+import { SocketEvents } from "../types/chat.types";
+import useSocket from "./useSocket";
 
 interface UseChatSocketReturn {
   messages: Message[];
@@ -12,6 +18,7 @@ interface UseChatSocketReturn {
   startSearch: () => void;
   stopSearch: () => void;
   skipChat: () => void;
+  cancelSearch: () => void;
   startTyping: () => void;
   stopTyping: () => void;
 }
@@ -29,17 +36,18 @@ const useChatSocket = (): UseChatSocketReturn => {
 
     const handleMessage = (data: MessagePayload) => {
       // Ensure timestamp is converted to Date object if it's a string
-      const timestamp = data.timestamp instanceof Date
-        ? data.timestamp
-        : new Date(data.timestamp || Date.now());
+      const timestamp =
+        data.timestamp instanceof Date
+          ? data.timestamp
+          : new Date(data.timestamp || Date.now());
 
       const newMessage: Message = {
         id: Date.now().toString(),
         text: data.content,
-        sender: 'peer', // Messages from backend are from the peer
+        sender: "peer", // Messages from backend are from the peer
         timestamp,
       };
-      setMessages(prev => [...prev, newMessage]);
+      setMessages((prev) => [...prev, newMessage]);
     };
 
     const handleMatchFound = (_data: MatchFoundPayload) => {
@@ -110,26 +118,29 @@ const useChatSocket = (): UseChatSocketReturn => {
   }, [isSocketConnected]);
 
   // Send message to backend
-  const sendMessage = useCallback((text: string) => {
-    if (socket && text.trim()) {
-      const messageData: MessagePayload = {
-        from: 'self',
-        content: text.trim(),
-        timestamp: new Date(),
-      };
+  const sendMessage = useCallback(
+    (text: string) => {
+      if (socket && text.trim()) {
+        const messageData: MessagePayload = {
+          from: "self",
+          content: text.trim(),
+          timestamp: new Date(),
+        };
 
-      socket.emit(SocketEvents.MESSAGE, messageData);
+        socket.emit(SocketEvents.MESSAGE, messageData);
 
-      // Add the sent message to the UI
-      const newMessage: Message = {
-        id: Date.now().toString(),
-        text: text.trim(),
-        sender: 'self',
-        timestamp: new Date(),
-      };
-      setMessages(prev => [...prev, newMessage]);
-    }
-  }, [socket]);
+        // Add the sent message to the UI
+        const newMessage: Message = {
+          id: Date.now().toString(),
+          text: text.trim(),
+          sender: "self",
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, newMessage]);
+      }
+    },
+    [socket]
+  );
 
   // Start search for a partner
   const startSearch = useCallback(() => {

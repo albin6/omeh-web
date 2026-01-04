@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 interface SkipButtonProps {
   onSkip: () => void;
   disabled?: boolean;
 }
 
-const SkipButton: React.FC<SkipButtonProps> = ({ onSkip, disabled = false }) => {
+const SkipButton: React.FC<SkipButtonProps> = ({
+  onSkip,
+  disabled = false,
+}) => {
   const [skipConfirmed, setSkipConfirmed] = useState(false);
-  const [skipTimeout, setSkipTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [skipTimeout, setSkipTimeout] = useState<number | null>(null);
 
   const handleClick = () => {
     if (disabled) return;
@@ -15,12 +18,12 @@ const SkipButton: React.FC<SkipButtonProps> = ({ onSkip, disabled = false }) => 
     if (!skipConfirmed) {
       // First click: show "Really?" button
       setSkipConfirmed(true);
-      
+
       // Set timeout to reset after 3 seconds
       const timeout = setTimeout(() => {
         setSkipConfirmed(false);
       }, 3000);
-      
+
       setSkipTimeout(timeout);
     } else {
       // Second click: skip the chat
@@ -46,9 +49,9 @@ const SkipButton: React.FC<SkipButtonProps> = ({ onSkip, disabled = false }) => 
       type="button"
       onClick={handleClick}
       disabled={disabled}
-      className={`skip-button ${skipConfirmed ? 'confirmed' : ''}`}
+      className={`skip-button ${skipConfirmed ? "confirmed" : ""}`}
     >
-      {skipConfirmed ? 'Really?' : 'Skip'}
+      {skipConfirmed ? "Really?" : "Skip"}
     </button>
   );
 };

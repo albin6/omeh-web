@@ -1,6 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import type { Socket } from 'socket.io-client';
-import { initSocket, getSocket } from '../core/socket/socket';
+import { useState, useEffect, useCallback } from "react";
+import { initSocket, getSocket } from "../core/socket/socket";
 
 const useSocket = () => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
@@ -23,18 +22,18 @@ const useSocket = () => {
 
     const handleConnectError = (error: any) => {
       setIsConnecting(false);
-      console.error('Socket connection error:', error);
+      console.error("Socket connection error:", error);
     };
 
-    socketInstance.on('connect', handleConnect);
-    socketInstance.on('disconnect', handleDisconnect);
-    socketInstance.on('connect_error', handleConnectError);
+    socketInstance.on("connect", handleConnect);
+    socketInstance.on("disconnect", handleDisconnect);
+    socketInstance.on("connect_error", handleConnectError);
 
     // Cleanup on unmount
     return () => {
-      socketInstance.off('connect', handleConnect);
-      socketInstance.off('disconnect', handleDisconnect);
-      socketInstance.off('connect_error', handleConnectError);
+      socketInstance.off("connect", handleConnect);
+      socketInstance.off("disconnect", handleDisconnect);
+      socketInstance.off("connect_error", handleConnectError);
     };
   }, []);
 

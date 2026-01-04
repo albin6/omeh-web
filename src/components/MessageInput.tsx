@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import type { KeyboardEvent } from 'react';
+import React, { useState, useRef } from "react";
+import type { KeyboardEvent } from "react";
 
 interface MessageInputProps {
   onSendMessage?: (message: string) => void;
@@ -12,16 +12,16 @@ const MessageInput: React.FC<MessageInputProps> = ({
   onSendMessage,
   onStartTyping,
   onStopTyping,
-  disabled = false
+  disabled = false,
 }) => {
-  const [message, setMessage] = useState('');
-  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [message, setMessage] = useState("");
+  const typingTimeoutRef = useRef<number | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim() && onSendMessage && !disabled) {
       onSendMessage(message.trim());
-      setMessage('');
+      setMessage("");
       if (onStopTyping) {
         onStopTyping();
       }
@@ -29,11 +29,11 @@ const MessageInput: React.FC<MessageInputProps> = ({
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       if (message.trim() && onSendMessage && !disabled) {
         onSendMessage(message.trim());
-        setMessage('');
+        setMessage("");
         if (onStopTyping) {
           onStopTyping();
         }
