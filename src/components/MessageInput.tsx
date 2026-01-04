@@ -15,7 +15,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
   disabled = false,
 }) => {
   const [message, setMessage] = useState("");
-  const typingTimeoutRef = useRef<number | null>(null);
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

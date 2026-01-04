@@ -10,7 +10,7 @@ const SkipButton: React.FC<SkipButtonProps> = ({
   disabled = false,
 }) => {
   const [skipConfirmed, setSkipConfirmed] = useState(false);
-  const [skipTimeout, setSkipTimeout] = useState<number | null>(null);
+  const [skipTimeout, setSkipTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   const handleClick = () => {
     if (disabled) return;
