@@ -1,0 +1,252 @@
+/* General styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f5f5;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Chat Page */
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Status Bar */
+.status-bar {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 14px;
+  color: #495057;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.status-text {
+  font-weight: 500;
+}
+
+/* Chat Container */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Chat Window */
+.chat-window {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.messages-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.empty-state {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Message styling */
+.message {
+  max-width: 70%;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 18px;
+  position: relative;
+  word-wrap: break-word;
+}
+
+.message.user {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+.message.partner {
+  align-self: flex-start;
+  background-color: #e9ecef;
+  color: #333;
+  border-bottom-left-radius: 5px;
+}
+
+.message-time {
+  font-size: 0.7rem;
+  margin-top: 5px;
+  opacity: 0.7;
+  text-align: right;
+}
+
+.message.user .message-time {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Message Input Form */
+.message-input-form {
+  display: flex;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+}
+
+.message-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 20px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.message-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.send-button {
+  margin-left: 10px;
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.send-button:hover:not(:disabled) {
+  background-color: #0069d9;
+}
+
+.send-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+  padding: 8px 20px;
+  background-color: #e3f2fd;
+  color: #1976d2;
+  font-size: 14px;
+  text-align: center;
+  border-bottom: 1px solid #bbdefb;
+}
+
+/* Input Container */
+.input-container {
+  display: flex;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+}
+
+/* Skip Button */
+.skip-button {
+  margin-left: 10px;
+  padding: 12px 20px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  min-width: 80px;
+}
+
+.skip-button:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.skip-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.skip-button.confirmed {
+  background-color: #ff9800;
+}
+
+.skip-button.confirmed:hover:not(:disabled) {
+  background-color: #f57c00;
+}
+
+/* Cancel Button */
+.cancel-button {
+  margin-left: 10px;
+  padding: 12px 20px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  min-width: 80px;
+}
+
+.cancel-button:hover:not(:disabled) {
+  background-color: #5a6268;
+}
+
+.cancel-button:disabled {
+  background-color: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* New Chat Button */
+.new-chat-button {
+  margin-left: 10px;
+  padding: 12px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  min-width: 80px;
+}
+
+.new-chat-button:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.new-chat-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
