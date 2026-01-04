@@ -1,0 +1,38 @@
+*** Begin Patch
+*** Update File: src/components/MessageInput.tsx
+@@
+-  const [message, setMessage] = useState("");
+-  const typingTimeoutRef = useRef<number | null>(null);
++  const [message, setMessage] = useState("");
++  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+*** Update File: src/components/SkipButton.tsx
+@@
+-  const [skipConfirmed, setSkipConfirmed] = useState(false);
+-  const [skipTimeout, setSkipTimeout] = useState<number | null>(null);
++  const [skipConfirmed, setSkipConfirmed] = useState(false);
++  const [skipTimeout, setSkipTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
+*** Update File: src/hooks/useChatSocket.ts
+@@
+-import { useState, useEffect, useCallback } from "react";
+-import type {
+-  Message,
+-  MessagePayload,
+-  MatchFoundPayload,
+-  WaitingPayload,
+-  TypingPayload,
+-} from "../types/chat.types";
++import { useState, useEffect, useCallback } from "react";
++import type {
++  Message,
++  MessagePayload,
++  MatchFoundPayload,
++  WaitingPayload,
++  TypingPayload,
++} from "../types/chat.types";
+*** Update File: src/hooks/useSocket.ts
+@@
+-import { useState, useEffect, useCallback } from 'react';
+-import { initSocket, getSocket } from '../core/socket/socket';
++import { useState, useEffect, useCallback } from 'react';
++import { initSocket, getSocket } from '../core/socket/socket';
+*** End Patch
