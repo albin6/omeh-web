@@ -111,7 +111,8 @@ const useChatSocket = (): UseChatSocketReturn => {
   // Update connection status based on socket connection
   useEffect(() => {
     if (isSocketConnected) {
-      setIsSearching(true); // Show "Searching..." when socket connects
+      // Don't automatically start searching - let user decide
+      setIsSearching(false);
     } else {
       setIsSearching(false);
     }
@@ -162,8 +163,10 @@ const useChatSocket = (): UseChatSocketReturn => {
   const skipChat = useCallback(() => {
     if (socket) {
       socket.emit(SocketEvents.SKIP_CHAT);
-      // Go back to searching
-      setIsSearching(true);
+      // Go back to disconnected state (not searching)
+      setIsSearching(false);
+      setIsChatConnected(false);
+      setMessages([]); // Clear messages when skipping
     }
   }, [socket]);
 
@@ -172,6 +175,7 @@ const useChatSocket = (): UseChatSocketReturn => {
     if (socket) {
       socket.emit(SocketEvents.STOP_SEARCH);
       setIsSearching(false);
+      setIsChatConnected(false); // Ensure we're in disconnected state
       setMessages([]); // Clear any messages if any
     }
   }, [socket]);

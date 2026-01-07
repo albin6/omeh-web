@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Button } from "antd";
+import { CloseCircle } from "lucide-react";
 
 interface SkipButtonProps {
   onSkip: () => void;
@@ -10,23 +12,20 @@ const SkipButton: React.FC<SkipButtonProps> = ({
   disabled = false,
 }) => {
   const [skipConfirmed, setSkipConfirmed] = useState(false);
-  const [skipTimeout, setSkipTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
+  const [skipTimeout, setSkipTimeout] = useState<ReturnType<
+    typeof setTimeout
+  > | null>(null);
 
   const handleClick = () => {
     if (disabled) return;
 
     if (!skipConfirmed) {
-      // First click: show "Really?" button
       setSkipConfirmed(true);
-
-      // Set timeout to reset after 3 seconds
       const timeout = setTimeout(() => {
         setSkipConfirmed(false);
       }, 3000);
-
       setSkipTimeout(timeout);
     } else {
-      // Second click: skip the chat
       if (skipTimeout) {
         clearTimeout(skipTimeout);
       }
@@ -35,7 +34,6 @@ const SkipButton: React.FC<SkipButtonProps> = ({
     }
   };
 
-  // Clean up timeout on unmount
   useEffect(() => {
     return () => {
       if (skipTimeout) {
@@ -45,14 +43,18 @@ const SkipButton: React.FC<SkipButtonProps> = ({
   }, [skipTimeout]);
 
   return (
-    <button
-      type="button"
+    <Button
       onClick={handleClick}
       disabled={disabled}
-      className={`skip-button ${skipConfirmed ? "confirmed" : ""}`}
+      className={`!h-12 !px-6 !rounded-2xl !font-semibold transition-all ${
+        skipConfirmed
+          ? "!bg-red-600 !border-red-600 !text-white hover:!bg-red-700"
+          : "!bg-gray-700 !border-gray-600 !text-white hover:!bg-gray-600"
+      }`}
+      icon={<CloseCircle className="w-4 h-4" />}
     >
-      {skipConfirmed ? "Really?" : "Skip"}
-    </button>
+      {skipConfirmed ? "Confirm Skip" : "Skip"}
+    </Button>
   );
 };
 
