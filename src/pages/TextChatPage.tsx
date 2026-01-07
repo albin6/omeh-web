@@ -7,7 +7,7 @@ import useChatSocket from "../hooks/useChatSocket";
 import { Button, Space } from "antd";
 import { Home } from "lucide-react";
 
-const ChatPage: React.FC = () => {
+const TextChatPage: React.FC = () => {
   const {
     messages,
     isSearching,
@@ -48,10 +48,10 @@ const ChatPage: React.FC = () => {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
-              Chat Room
+              Text Chat
             </h1>
             <p className="text-gray-400 text-sm mt-1">
-              Connected with a stranger
+              Connect with a stranger instantly
             </p>
           </div>
           <Button
@@ -64,10 +64,8 @@ const ChatPage: React.FC = () => {
           </Button>
         </div>
 
-        {/* Status Bar */}
         <StatusBar isSearching={isSearching} isConnected={isConnected} />
 
-        {/* Typing Indicator */}
         {isPartnerTyping && (
           <div className="mb-4 p-4 bg-gray-700 rounded-2xl border border-gray-600 flex items-center gap-3 animate-pulse">
             <div className="flex gap-1">
@@ -86,10 +84,8 @@ const ChatPage: React.FC = () => {
         )}
 
         <div className="chat-container grid grid-rows-[1fr_auto] gap-6 h-[calc(100vh-280px)]">
-          {/* Chat Window */}
           <ChatWindow messages={messages} />
 
-          {/* Input Area */}
           <div className="input-area flex flex-col gap-4">
             <MessageInput
               onSendMessage={sendMessage}
@@ -98,14 +94,12 @@ const ChatPage: React.FC = () => {
               disabled={!isConnected || isSearching}
             />
 
-            {/* Action Buttons */}
             <div className="flex items-center justify-between">
               <Space>
                 {isSearching && !isConnected && (
                   <Button
                     onClick={cancelSearch}
                     disabled={!isSearching || isConnected}
-                    className="!h-10 !rounded-xl"
                   >
                     Cancel
                   </Button>
@@ -121,7 +115,6 @@ const ChatPage: React.FC = () => {
                     type="primary"
                     onClick={startSearch}
                     disabled={isConnected || isSearching}
-                    className="!bg-gradient-to-r !from-green-600 !to-green-700 !border-0 !h-10 !px-6 !rounded-xl"
                   >
                     New Chat
                   </Button>
@@ -136,4 +129,4 @@ const ChatPage: React.FC = () => {
   );
 };
 
-export default ChatPage;
+export default TextChatPage;
