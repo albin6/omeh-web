@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Card } from "antd";
+import { Button } from "antd";
 import { ArrowLeft } from "lucide-react";
 
 const VideoChatPage: React.FC = () => {
@@ -16,7 +16,7 @@ const VideoChatPage: React.FC = () => {
       <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob animation-delay-4000"></div>
 
-      <Card className="max-w-md w-full text-center relative z-10 bg-gray-800 border-gray-700 shadow-2xl rounded-2xl">
+      <div className="max-w-md w-full text-center relative z-10 bg-gray-800 border-gray-700 shadow-2xl rounded-2xl">
         <div className="mb-6">
           <div className="text-6xl mb-4">🎥</div>
           <h1 className="text-3xl font-bold text-white mb-2">Video Chat</h1>
@@ -39,7 +39,7 @@ const VideoChatPage: React.FC = () => {
             Back to Home
           </Button>
         </div>
-      </Card>
+      </div>
 
       <style>{`
         @keyframes blob {

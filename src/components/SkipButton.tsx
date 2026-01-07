@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "antd";
-import { CloseCircle } from "lucide-react";
+import { XCircle } from "lucide-react";
 
 interface SkipButtonProps {
   onSkip: () => void;
@@ -51,7 +51,7 @@ const SkipButton: React.FC<SkipButtonProps> = ({
           ? "!bg-red-600 !border-red-600 !text-white hover:!bg-red-700"
           : "!bg-gray-700 !border-gray-600 !text-white hover:!bg-gray-600"
       }`}
-      icon={<CloseCircle className="w-4 h-4" />}
+      icon={<XCircle className="w-4 h-4" />}
     >
       {skipConfirmed ? "Confirm Skip" : "Skip"}
     </Button>
