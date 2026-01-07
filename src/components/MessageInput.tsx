@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import type { KeyboardEvent } from "react";
 import { Input, Button } from "antd";
-import { SendOutlined } from "antd/icons";
+import { SendOutlined } from "@ant-design/icons";
 
 interface MessageInputProps {
   onSendMessage?: (message: string) => void;

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, Space } from "antd";
+import { Button } from "antd";
 import { MessageCircle, Video } from "lucide-react";
 
 const LandingPage: React.FC = () => {
@@ -46,7 +46,7 @@ const LandingPage: React.FC = () => {
             style={{ animationDelay: "0.1s" }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-            <Card className="relative bg-gray-900 border-0 rounded-2xl overflow-hidden transition-all duration-300 group-hover:shadow-2xl">
+            <div className="relative bg-gray-900 border-0 rounded-2xl overflow-hidden transition-all duration-300 group-hover:shadow-2xl">
               <div className="flex flex-col items-center text-center gap-4 py-6">
                 <div className="p-4 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 group-hover:scale-110 transition-transform duration-300">
                   <MessageCircle className="w-8 h-8 text-white" />
@@ -68,7 +68,7 @@ const LandingPage: React.FC = () => {
                   Start Chatting
                 </Button>
               </div>
-            </Card>
+            </div>
           </div>
 
           {/* Video Chat Card */}
@@ -77,7 +77,7 @@ const LandingPage: React.FC = () => {
             style={{ animationDelay: "0.2s" }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-            <Card className="relative bg-gray-900 border-0 rounded-2xl overflow-hidden transition-all duration-300 group-hover:shadow-2xl">
+            <div className="relative bg-gray-900 border-0 rounded-2xl overflow-hidden transition-all duration-300 group-hover:shadow-2xl">
               <div className="flex flex-col items-center text-center gap-4 py-6">
                 <div className="p-4 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 group-hover:scale-110 transition-transform duration-300">
                   <Video className="w-8 h-8 text-white" />
@@ -99,7 +99,7 @@ const LandingPage: React.FC = () => {
                   Learn More
                 </Button>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
 
