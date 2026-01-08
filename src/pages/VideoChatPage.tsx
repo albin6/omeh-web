@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Button } from "antd";
-import { Home, Video, VideoOff, SkipForward, Mic, Camera, CameraOff } from "lucide-react";
+import { Home, Video, VideoOff, SkipForward, CameraOff } from "lucide-react";
 import useVideoChat from "../hooks/useVideoChat";
 
 const VideoChatPage: React.FC = () => {
@@ -95,7 +95,7 @@ const VideoChatPage: React.FC = () => {
                             autoPlay
                             playsInline
                             muted
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover scale-x-[-1]"
                         />
                     ) : (
                         <div className="w-full h-full flex items-center justify-center bg-black/50">
@@ -107,18 +107,6 @@ const VideoChatPage: React.FC = () => {
 
             {/* Controls Bar */}
             <div className="h-20 glass-panel border-t border-white/10 flex items-center justify-center gap-6 px-4 z-50">
-                <Button
-                    size="large"
-                    shape="circle"
-                    className="!bg-white/10 !border-white/10 !text-white hover:!bg-white/20"
-                    icon={<Mic className="w-5 h-5" />}
-                    onClick={() => {
-                        if (localStream) {
-                            localStream.getAudioTracks().forEach(track => track.enabled = !track.enabled);
-                        }
-                    }}
-                />
-
                 {!isSearching && !isConnected ? (
                     <Button
                         type="primary"
@@ -132,25 +120,13 @@ const VideoChatPage: React.FC = () => {
                     <Button
                         type="primary"
                         size="large"
-                        className={`!h-12 !px-8 !rounded-full !border-0 !text-base !font-bold shadow-lg transition-all ${isSearching ? '!bg-red-500 hover:!bg-red-600 shadow-red-500/30' : '!bg-gray-700 hover:!bg-gray-600'}`}
+                        className={`!h-12 !px-8 !rounded-full !border-0 !text-base !font-bold shadow-lg transition-all !bg-red-500 hover:!bg-red-600 shadow-red-500/30`}
                         onClick={isConnected ? skipMatch : stopVideoSearch}
                         icon={isConnected ? <SkipForward className="w-5 h-5" /> : null}
                     >
                         {isConnected ? "Skip Partner" : "Stop Search"}
                     </Button>
                 )}
-
-                <Button
-                    size="large"
-                    shape="circle"
-                    className="!bg-white/10 !border-white/10 !text-white hover:!bg-white/20"
-                    icon={<Camera className="w-5 h-5" />}
-                    onClick={() => {
-                        if (localStream) {
-                            localStream.getVideoTracks().forEach(track => track.enabled = !track.enabled);
-                        }
-                    }}
-                />
             </div>
         </div>
     );
