@@ -1,53 +1,159 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
 import { Button } from "antd";
-import { ArrowLeft, Video } from "lucide-react";
+import { Home, Video, VideoOff, SkipForward, Mic, Camera, CameraOff } from "lucide-react";
+import useVideoChat from "../hooks/useVideoChat";
 
 const VideoChatPage: React.FC = () => {
-  const navigate = useNavigate();
+    const {
+        localStream,
+        remoteStream,
+        isSearching,
+        isConnected,
+        isSocketConnected,
+        startVideoSearch,
+        stopVideoSearch,
+        skipMatch,
+        initializeMedia
+    } = useVideoChat();
 
-  const handleGoBack = () => {
-    navigate("/");
-  };
+    const localVideoRef = useRef<HTMLVideoElement>(null);
+    const remoteVideoRef = useRef<HTMLVideoElement>(null);
 
-  return (
-    <div className="min-h-screen relative overflow-hidden bg-[#0f172a] text-white flex items-center justify-center p-6">
-      {/* Background Gradients */}
-      <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[100px] pointer-events-none" />
+    // Initial media setup
+    useEffect(() => {
+        initializeMedia();
+    }, [initializeMedia]);
 
-      <div className="glass-panel max-w-md w-full text-center relative z-10 p-8 rounded-3xl border border-white/10">
-        <div className="mb-6 flex justify-center">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center shadow-lg shadow-pink-500/30">
-            <Video className="w-10 h-10 text-white" />
-          </div>
+    // Bind streams to video elements
+    useEffect(() => {
+        if (localVideoRef.current && localStream) {
+            localVideoRef.current.srcObject = localStream;
+        }
+    }, [localStream]);
+
+    useEffect(() => {
+        if (remoteVideoRef.current && remoteStream) {
+            remoteVideoRef.current.srcObject = remoteStream;
+        }
+    }, [remoteStream]);
+
+    return (
+        <div className="h-[100dvh] w-full bg-gray-900 flex flex-col relative overflow-hidden">
+            {/* Header */}
+            <div className="absolute top-0 left-0 w-full z-50 p-4 flex justify-between items-center bg-gradient-to-b from-black/50 to-transparent">
+                <Button
+                    type="text"
+                    className="!text-white hover:!bg-white/10"
+                    onClick={() => (window.location.href = "/")}
+                    icon={<Home className="w-5 h-5" />}
+                >
+                    Home
+                </Button>
+                <div className="px-4 py-2 rounded-full glass-panel text-sm font-medium text-white/80">
+                    {isSocketConnected ? (
+                        <span className="flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                            Online
+                        </span>
+                    ) : (
+                        <span className="flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                            Connecting...
+                        </span>
+                    )}
+                </div>
+            </div>
+
+            {/* Main Video Area (Remote) */}
+            <div className="flex-1 relative bg-black flex items-center justify-center">
+                {remoteStream && isConnected ? (
+                    <video
+                        ref={remoteVideoRef}
+                        autoPlay
+                        playsInline
+                        className="w-full h-full object-cover"
+                    />
+                ) : (
+                    <div className="text-center text-white/50 flex flex-col items-center">
+                        <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-4 ${isSearching ? 'bg-blue-500/20 animate-pulse' : 'bg-gray-800'}`}>
+                            {isSearching ? <Video className="w-10 h-10 text-blue-400" /> : <VideoOff className="w-10 h-10" />}
+                        </div>
+                        <h3 className="text-xl font-semibold text-white mb-2">
+                            {isSearching ? "Searching for partner..." : "Start video chat"}
+                        </h3>
+                        <p className="text-sm max-w-xs">
+                            {isSearching ? "Please wait while we match you with someone." : "Click Start to meet new people instantly."}
+                        </p>
+                    </div>
+                )}
+
+                {/* Local Video (PIP) */}
+                <div className="absolute bottom-24 right-4 w-32 md:w-48 aspect-video bg-gray-800 rounded-xl overflow-hidden shadow-2xl border-2 border-white/20 z-20">
+                    {localStream ? (
+                        <video
+                            ref={localVideoRef}
+                            autoPlay
+                            playsInline
+                            muted
+                            className="w-full h-full object-cover"
+                        />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-black/50">
+                            <CameraOff className="w-6 h-6 text-white/50" />
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Controls Bar */}
+            <div className="h-20 glass-panel border-t border-white/10 flex items-center justify-center gap-6 px-4 z-50">
+                <Button
+                    size="large"
+                    shape="circle"
+                    className="!bg-white/10 !border-white/10 !text-white hover:!bg-white/20"
+                    icon={<Mic className="w-5 h-5" />}
+                    onClick={() => {
+                        if (localStream) {
+                            localStream.getAudioTracks().forEach(track => track.enabled = !track.enabled);
+                        }
+                    }}
+                />
+
+                {!isSearching && !isConnected ? (
+                    <Button
+                        type="primary"
+                        size="large"
+                        className="!h-12 !px-8 !rounded-full !bg-gradient-to-r !from-purple-600 !to-blue-600 !border-0 !text-base !font-bold shadow-lg shadow-purple-500/30 hover:!shadow-purple-500/50 transition-all"
+                        onClick={startVideoSearch}
+                    >
+                        Start Video Chat
+                    </Button>
+                ) : (
+                    <Button
+                        type="primary"
+                        size="large"
+                        className={`!h-12 !px-8 !rounded-full !border-0 !text-base !font-bold shadow-lg transition-all ${isSearching ? '!bg-red-500 hover:!bg-red-600 shadow-red-500/30' : '!bg-gray-700 hover:!bg-gray-600'}`}
+                        onClick={isConnected ? skipMatch : stopVideoSearch}
+                        icon={isConnected ? <SkipForward className="w-5 h-5" /> : null}
+                    >
+                        {isConnected ? "Skip Partner" : "Stop Search"}
+                    </Button>
+                )}
+
+                <Button
+                    size="large"
+                    shape="circle"
+                    className="!bg-white/10 !border-white/10 !text-white hover:!bg-white/20"
+                    icon={<Camera className="w-5 h-5" />}
+                    onClick={() => {
+                        if (localStream) {
+                            localStream.getVideoTracks().forEach(track => track.enabled = !track.enabled);
+                        }
+                    }}
+                />
+            </div>
         </div>
-
-        <h1 className="text-3xl font-bold text-white mb-2">Video Chat</h1>
-
-        <div className="inline-block px-3 py-1 bg-yellow-400/10 text-yellow-400 rounded-full text-xs font-semibold mb-6 border border-yellow-400/20">
-          IN DEVELOPMENT
-        </div>
-
-        <p className="text-gray-400 mb-8 leading-relaxed">
-          We're working hard to bring you video chat functionality with
-          crystal-clear quality and smooth performance.
-        </p>
-
-        <div className="flex gap-3 flex-col">
-          <Button
-            type="primary"
-            onClick={handleGoBack}
-            size="large"
-            className="!bg-white !text-black !border-0 !h-12 !rounded-xl !font-bold hover:!bg-gray-200"
-            icon={<ArrowLeft className="w-4 h-4" />}
-          >
-            Back to Home
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default VideoChatPage;

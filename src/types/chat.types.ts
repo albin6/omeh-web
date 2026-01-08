@@ -26,6 +26,17 @@ export enum SocketEvents {
   USER_DISCONNECTED = 'user_disconnected',
   START_SEARCH = 'start_search',
   STOP_SEARCH = 'stop_search',
+
+  // Video Events
+  START_VIDEO_SEARCH = 'start_video_search',
+  STOP_VIDEO_SEARCH = 'stop_video_search',
+  VIDEO_MATCH_FOUND = 'video_match_found',
+
+  // Signaling Events
+  SIGNAL_OFFER = 'signal_offer',
+  SIGNAL_ANSWER = 'signal_answer',
+  SIGNAL_ICE_CANDIDATE = 'signal_ice_candidate',
+
   TYPING_START = 'typing_start',
   TYPING_STOP = 'typing_stop',
   SKIP_CHAT = 'skip_chat',
@@ -64,4 +75,10 @@ export interface TypingPayload {
 
 export interface SkipChatPayload {
   reason?: string;
+}
+
+export interface SignalPayload {
+  type?: RTCSdpType; // 'offer' or 'answer'
+  sdp?: string;
+  candidate?: RTCIceCandidate;
 }
