@@ -1,6 +1,5 @@
 import React from "react";
-import { Tag, Space } from "antd";
-import { Wifi, Loader } from "lucide-react";
+import { Wifi, Loader2, VideoOff } from "lucide-react";
 
 interface StatusBarProps {
   isConnected?: boolean;
@@ -11,38 +10,28 @@ const StatusBar: React.FC<StatusBarProps> = ({
   isConnected = false,
   isSearching = false,
 }) => {
-  const getStatusText = () => {
-    if (isSearching) return "Searching for partner...";
-    if (isConnected) return "Connected";
-    return "Disconnected";
-  };
+  if (isSearching) {
+    return (
+      <div className="flex items-center justify-center gap-2 text-yellow-400 font-medium text-sm animate-pulse">
+        <Loader2 className="w-4 h-4 animate-spin" />
+        <span>Searching for someone...</span>
+      </div>
+    );
+  }
 
-  const getTagColor = () => {
-    if (isSearching) return "orange";
-    if (isConnected) return "success";
-    return "error";
-  };
+  if (isConnected) {
+    return (
+      <div className="flex items-center justify-center gap-2 text-green-400 font-medium text-sm">
+        <Wifi className="w-4 h-4" />
+        <span>Connected</span>
+      </div>
+    );
+  }
 
   return (
-    <div className="status-bar w-full mb-4">
-      <div className="bg-gray-800 border border-gray-700 rounded-2xl px-6 py-4 flex items-center justify-between shadow-lg">
-        <Space size="large">
-          <div className="flex items-center gap-3">
-            {isSearching && (
-              <Loader className="w-5 h-5 text-orange-400 animate-spin" />
-            )}
-            {isConnected && (
-              <Wifi className="w-5 h-5 text-green-400 animate-pulse" />
-            )}
-            {!isConnected && !isSearching && (
-              <Wifi className="w-5 h-5 text-red-400 opacity-50" />
-            )}
-            <Tag color={getTagColor()} className="!m-0 !font-semibold">
-              {getStatusText()}
-            </Tag>
-          </div>
-        </Space>
-      </div>
+    <div className="flex items-center justify-center gap-2 text-gray-400 font-medium text-sm">
+      <VideoOff className="w-4 h-4 opacity-50" />
+      <span>Disconnected</span>
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "antd";
-import { XCircle } from "lucide-react";
+import { XCircle, AlertTriangle } from "lucide-react";
 
 interface SkipButtonProps {
   onSkip: () => void;
@@ -43,18 +42,20 @@ const SkipButton: React.FC<SkipButtonProps> = ({
   }, [skipTimeout]);
 
   return (
-    <Button
+    <button
       onClick={handleClick}
       disabled={disabled}
-      className={`!h-12 !px-6 !rounded-2xl !font-semibold transition-all ${
-        skipConfirmed
-          ? "!bg-red-600 !border-red-600 !text-white hover:!bg-red-700"
-          : "!bg-gray-700 !border-gray-600 !text-white hover:!bg-gray-600"
-      }`}
-      icon={<XCircle className="w-4 h-4" />}
+      className={`relative h-10 px-6 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300
+        ${disabled
+          ? "bg-gray-800 text-gray-600 cursor-not-allowed border border-white/5"
+          : skipConfirmed
+            ? "bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.3)] animate-pulse"
+            : "bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 hover:text-white"
+        }`}
     >
-      {skipConfirmed ? "Confirm Skip" : "Skip"}
-    </Button>
+      {skipConfirmed ? <AlertTriangle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
+      <span>{skipConfirmed ? "Confirm?" : "Skip"}</span>
+    </button>
   );
 };
 
