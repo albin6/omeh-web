@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Video } from "lucide-react";
 
 const VideoChatPage: React.FC = () => {
   const navigate = useNavigate();
@@ -11,49 +11,41 @@ const VideoChatPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 flex items-center justify-center p-6">
-      {/* Animated background elements */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob animation-delay-4000"></div>
+    <div className="min-h-screen relative overflow-hidden bg-[#0f172a] text-white flex items-center justify-center p-6">
+      {/* Background Gradients */}
+      <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="max-w-md w-full text-center relative z-10 bg-gray-800 border-gray-700 shadow-2xl rounded-2xl">
-        <div className="mb-6">
-          <div className="text-6xl mb-4">🎥</div>
-          <h1 className="text-3xl font-bold text-white mb-2">Video Chat</h1>
+      <div className="glass-panel max-w-md w-full text-center relative z-10 p-8 rounded-3xl border border-white/10">
+        <div className="mb-6 flex justify-center">
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center shadow-lg shadow-pink-500/30">
+            <Video className="w-10 h-10 text-white" />
+          </div>
         </div>
-        <p className="text-lg bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text font-semibold mb-4">
-          Coming Soon!
-        </p>
-        <p className="text-gray-300 mb-8">
+
+        <h1 className="text-3xl font-bold text-white mb-2">Video Chat</h1>
+
+        <div className="inline-block px-3 py-1 bg-yellow-400/10 text-yellow-400 rounded-full text-xs font-semibold mb-6 border border-yellow-400/20">
+          IN DEVELOPMENT
+        </div>
+
+        <p className="text-gray-400 mb-8 leading-relaxed">
           We're working hard to bring you video chat functionality with
           crystal-clear quality and smooth performance.
         </p>
+
         <div className="flex gap-3 flex-col">
           <Button
             type="primary"
             onClick={handleGoBack}
             size="large"
-            className="!bg-gradient-to-r !from-blue-600 !to-blue-700 !border-0 !h-11 !rounded-xl !font-semibold"
+            className="!bg-white !text-black !border-0 !h-12 !rounded-xl !font-bold hover:!bg-gray-200"
             icon={<ArrowLeft className="w-4 h-4" />}
           >
             Back to Home
           </Button>
         </div>
       </div>
-
-      <style>{`
-        @keyframes blob {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
     </div>
   );
 };

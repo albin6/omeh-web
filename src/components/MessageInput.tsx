@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import type { KeyboardEvent } from "react";
-import { Input, Button } from "antd";
-import { SendOutlined } from "@ant-design/icons";
+import { Send } from "lucide-react";
 
 interface MessageInputProps {
   onSendMessage?: (message: string) => void;
@@ -19,8 +18,8 @@ const MessageInput: React.FC<MessageInputProps> = ({
   const [message, setMessage] = useState("");
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleSend = (value?: string) => {
-    const trimmed = (value ?? message).trim();
+  const handleSend = () => {
+    const trimmed = message.trim();
     if (trimmed && onSendMessage && !disabled) {
       onSendMessage(trimmed);
       setMessage("");
@@ -64,29 +63,32 @@ const MessageInput: React.FC<MessageInputProps> = ({
   };
 
   return (
-    <div className="flex gap-3 items-center w-full">
-      <Input
+    <div className="relative flex items-center w-full gap-2">
+      <input
+        type="text"
         value={message}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        placeholder={disabled ? "Connecting..." : "Type your message..."}
+        placeholder={disabled ? "Finding someone..." : "Type your message..."}
         disabled={disabled}
-        className="!bg-gray-700 !border-gray-600 !text-white !rounded-2xl !px-5 !py-3 !h-12 placeholder:text-gray-400"
-        style={{
-          background: "#1f2937",
-          borderColor: "#4b5563",
-          color: "#f3f4f6",
-        }}
+        className={`w-full bg-[#1e293b] text-white border-0 rounded-full px-6 py-4 pr-14 outline-none transition-all duration-300 placeholder:text-gray-500
+          ${disabled
+            ? "opacity-60 cursor-not-allowed bg-gray-800"
+            : "hover:bg-[#273549] focus:bg-[#273549] focus:ring-2 focus:ring-blue-500/50 shadow-inner"
+          }`}
       />
-      <Button
-        type="primary"
-        onClick={() => handleSend()}
+
+      <button
+        onClick={handleSend}
         disabled={disabled || !message.trim()}
-        className="!bg-gradient-to-r !from-blue-600 !to-blue-700 !border-0 !h-12 !px-6 !rounded-2xl !font-semibold flex items-center gap-2"
-        icon={<SendOutlined />}
+        className={`absolute right-2 p-2.5 rounded-full flex items-center justify-center transition-all duration-300
+          ${disabled || !message.trim()
+            ? "bg-transparent text-gray-500 cursor-not-allowed"
+            : "bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-500/30 hover:scale-110 active:scale-95"
+          }`}
       >
-        Send
-      </Button>
+        <Send className={`w-5 h-5 ${!disabled && message.trim() ? "translate-x-0.5" : ""}`} />
+      </button>
     </div>
   );
 };
